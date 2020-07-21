@@ -3,6 +3,8 @@ class Usership {
         this.image = loadImage("Sprite/player.png");
         this.usership = createSprite(width / 2, height - 70, 50, 50);
         this.usership.visible = cond;
+
+        this.health = 100;
     }
 
     display() {

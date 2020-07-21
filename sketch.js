@@ -3,10 +3,16 @@ var dial1, dial2, dial3, dial4, dial5, dial6;
 var nextBtnClickCount = 0;
 var bgImg;
 var nextBtn, bg;
-var userShip, usership, enemyship, body;
+var userShip, usership, enemyship, body, tempShip, tempEneShip;
 var EnemyShips = [];
+var EnemyShipGroup, GreenGreenBulletsGroup, MeteoriteGroup, RedGreenBulletsGroup, temp, rand;
 var maxEnemyCount = 5;
 var Meteors = [];
+var GreenBullets = [];
+var RedBullets = [];
+var explodeAnimation;
+var Score = 0;
+
 
 function preload() {
   //Load Disalouges 
@@ -22,6 +28,8 @@ function preload() {
 
   //Load BG Image
   bgImg = loadImage("Sprite/Background/BG2.png");
+
+
 }
 
 function setup() {
@@ -36,11 +44,18 @@ function setup() {
 
   userShip = new Usership(false);
 
-  for (var i = 0; i < maxEnemyCount; i++) {
-    EnemyShips.push(new Enemyship(width / 4 + i * 200, false));
+  EnemyShipGroup = Group();
+  GreenBulletsGroup = Group();
+  RedBulletsGroup = Group();
+  MeteoriteGroup = Group();
+
+  if (maxEnemyCount === 5) {
+    for (var i = 0; i < maxEnemyCount; i++) {
+      EnemyShips.push(new Enemyship(width / 3.5 + i * 200, false));
+    }
   }
 
-  Meteors.push(new Meteorite(400, height / 4, false));
+  //Meteors.push(new Meteorite(400, height / 4, false));
 }
 
 function draw() {
@@ -126,15 +141,22 @@ function draw() {
     userShip.usership.visible = true;
     userShip.display();
 
-    for (var i = 0; i < EnemyShips.length; i++) {
-      EnemyShips[i].enemyship.visible = true;
-      EnemyShips[i].display();
+
+    for (var j = 0; j < EnemyShips.length; j++) {
+      EnemyShips[j].enemyship.visible = true;
+      EnemyShips[j].display();
     }
 
-    if (frameCount % 150 === 0) {
-      Meteors.push(new Meteorite(random(width * 0.25, width * 0.75), height / 4, false));
+    if (frameCount > 0 && frameCount % 540 === 0) {
+      Meteors.push(new Meteorite(random(width * 0.25, width * 0.75), -30, false));
     }
 
+    if (frameCount > 0 && frameCount % 30 === 0) {
+      rand = Math.round(random(0, 4));
+      if (EnemyShips[rand].health !== 0) {
+        RedBullets.push(new laserBullet(EnemyShips[rand].x, EnemyShips[rand].y + 20, "Red"));
+      }
+    }
 
 
     for (var i = 0; i < Meteors.length; i++) {
@@ -144,9 +166,30 @@ function draw() {
 
 
 
+    for (var z = 0; z < GreenBullets.length; z++) {
+      GreenBullets[z].display();
+    }
 
+    for (var b = 0; b < RedBullets.length; b++) {
+      RedBullets[b].display();
+    }
+
+
+
+    drawSprites();
+
+    fill("White")
+    textSize(20);
+    text("Score: " + Score, width - 150, height * 0.1);
+  }
+}
+
+function keyPressed() {
+  if (keyCode === 32) {
+    GreenBullets.push(new laserBullet(userShip.usership.x - 30, userShip.usership.y + 10, "Green"));
 
   }
+  // if (keyCode === 17) {
 
-  drawSprites();
+  //}
 }
