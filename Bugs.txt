@@ -1,0 +1,11 @@
+Bugs in Game:
+
+1. 'R' key doesn't work after Game Over --Fixed
+
+2. Insta Death on reaching health directly to 0 (Lives become -ve) -- Fixed
+
+3. Shooting Ships in any order (EnemyShips.length !== EnemyShipGroup.length); -- Fixed
+
+4. Multiple Dialogues on Clicking Next Button --Fixed
+
+5. Setting FrameCount to 0, after last Dialogue and Pressing R --Fixed

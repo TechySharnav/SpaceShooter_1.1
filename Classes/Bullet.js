@@ -3,6 +3,7 @@ class laserBullet {
         this.color = color;
         this.img = loadImage("Sprite/laser" + this.color + ".png");
 
+
         this.body = createSprite(x, y, 5, 20);
 
         if (this.color === "Green") {
@@ -26,14 +27,25 @@ class laserBullet {
         }
 
         for (var a = 0; a < EnemyShipGroup.length; a++) {
-            tempShip = EnemyShipGroup.get(a);
+            tempShip = EnemyShipGroup[a];
             tempEneShip = EnemyShips[a];
 
             if (this.color === "Green") {
                 if (this.body.isTouching(tempShip)) {
                     this.body.destroy();
                     Score += 100;
-                    tempEneShip.health = 0;
+                    if (tempEneShip !== undefined) {
+                        tempEneShip.health = 0;
+                    }
+                }
+
+            } else {
+                if (this.body.isTouching(userShip.usership)) {
+                    this.body.destroy();
+                    if (isTouch !== true) {
+                        userShip.health -= 50;
+                        Score -= 50;
+                    }
                 }
             }
         }
