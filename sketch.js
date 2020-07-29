@@ -229,7 +229,7 @@ function draw() {
     EnemyShipHealth();
 
     //Spawn New Meteor every 20 seconds
-    if (frameCount > 0 && frameCount % 150 === 0) {
+    if (frameCount > 0 && frameCount % 600 === 0) {
       MeteorSound.play();
       Meteors.push(new Meteorite(random(width * 0.25, width * 0.75), -30, false));
     }
